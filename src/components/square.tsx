@@ -4,12 +4,12 @@ import styles from "./style.module.css";
 import { Button } from "./ui/button";
 
 function Board() {
-  const [board, setBoard] = useState(Array(9).fill(" "));
-  const [count, setCount] = useState(0);
-  const [player, setPlayer] = useState("O");
-  const [winner, setWinner] = useState<string | null>(null);
-  const [history, setHistory] = useState<string[][]>([]);
+  const [board, setBoard] = useState(Array(9).fill(" ")); //storing the X,O for checking who's next and who win
+  const [player, setPlayer] = useState("O"); // players data
+  const [winner, setWinner] = useState<string | null>(null); //check who is winner
+  const [history, setHistory] = useState<string[][]>([]); //array to remember the steps
 
+  //square function just making button
   const Square = ({ value }: { value: number }) => {
     return (
       <button className={styles.square} onClick={() => setValue(value)}>
@@ -26,7 +26,6 @@ function Board() {
     const newBoard = [...board];
     newBoard[index] = player;
     setBoard(newBoard);
-    setCount(count + 1);
 
     const gameWinner = calculateWinner(newBoard);
     if (gameWinner) {
@@ -78,13 +77,11 @@ function Board() {
     setBoard(Array(9).fill(" "));
     setPlayer("O");
     setWinner(null);
-    setCount(0);
     setHistory([]);
   }
   function jumpto(index: number) {
     const previousBoard = history[index - 1];
     setBoard(previousBoard);
-    setCount(index);
     setPlayer(index % 2 === 0 ? "O" : "X");
     setWinner(calculateWinner(previousBoard));
     setHistory(history.slice(0, index));
